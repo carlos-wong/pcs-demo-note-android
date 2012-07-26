@@ -1,19 +1,7 @@
 package com.baidu.pcsdemonote;
 
-import java.sql.ResultSet;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
-import com.baidu.oauth2.BaiduOAuth;
-import com.baidu.oauth2.BaiduOAuthViaDialog;
-import com.baidu.pcs.BaiduPCSAPI;
-import com.baidu.pcs.PCSActionInfo;
-import com.baidu.pcs.PCSActionInfo.PCSFileInfoResponse;
+import java.util.Iterator;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -28,8 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -39,7 +25,7 @@ import android.widget.Toast;
  * 
  */
 
-@SuppressWarnings("unused")
+
 public class ContentActivity extends ListActivity {
     /** Called when the activity is first created. */
 		
@@ -48,6 +34,7 @@ public class ContentActivity extends ListActivity {
 	private ImageButton refresh = null;
 	
 	BaiduPCSAction contentNote = new BaiduPCSAction();
+	
 	
 	
     @Override
@@ -149,7 +136,7 @@ public class ContentActivity extends ListActivity {
 				
 				PCSDemoInfo.fileFlag = 0;
 				//Judge whether filename is empty			
-                if(PCSDemoInfo.fileTitle.equals("")){                	
+                if(PCSDemoInfo.fileTitle.isEmpty()){                	
                 	PCSDemoInfo.fileFlag = 1;                	
                 }
             	//Judge whether filename is exist		
@@ -209,7 +196,7 @@ public class ContentActivity extends ListActivity {
 		
 		 switch (item.getItemId()) {
 		     case PCSDemoInfo.ITEM0:
-		    	 contentNote.isExit(ContentActivity.this);
+		    	 contentNote.exit(ContentActivity.this);
 		         break;
 		     case PCSDemoInfo.ITEM1:		    	 
 		    	 Toast.makeText(getApplicationContext(), "自由开发者，呵呵！", Toast.LENGTH_SHORT).show();

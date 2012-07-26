@@ -110,7 +110,7 @@ public class CreateActivity extends Activity {
 		
 		 switch (item.getItemId()) {
 		     case PCSDemoInfo.ITEM0:
-		    	 createNote.isExit(CreateActivity.this);
+		    	 createNote.exit(CreateActivity.this);
 		         break;
 		     case PCSDemoInfo.ITEM1:		    	 
 		    	 Toast.makeText(getApplicationContext(), "我是自由开发者，呵呵！", Toast.LENGTH_SHORT).show();

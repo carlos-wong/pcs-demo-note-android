@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.http.util.EncodingUtils;
+
+import com.baidu.oauth2.BaiduOAuth;
 import com.baidu.oauth2.BaiduOAuthViaDialog;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -27,21 +29,23 @@ import com.baidu.pcsdemonote.BaiduPCSAction;
 
 
 public class BaiduPCSAction {
+	
+	public BaiduOAuth mbOauth = null;
 
     // Get access_token 
     public void login(final Context context){
     	
-    	if(null != PCSDemoInfo.access_token){
+    	if(null != PCSDemoInfo.access_token){    		
 			Intent intent = new Intent();    				    						    				
 			intent.setClass(context, ContentActivity.class); 				
 			context.startActivity(intent); 
     	}else{
     		
-    		PCSDemoInfo.mbOauth = new BaiduOAuthViaDialog(PCSDemoInfo.app_key);
+    		mbOauth = new BaiduOAuthViaDialog(PCSDemoInfo.app_key);
 
         	try {
         		//Start OAUTH dialog
-        		PCSDemoInfo.mbOauth.startDialogAuth(context, new String[]{"basic", "netdisk"}, new BaiduOAuthViaDialog.DialogListener(){
+        		mbOauth.startDialogAuth(context, new String[]{"basic", "netdisk"}, new BaiduOAuthViaDialog.DialogListener(){
 
         			//Login successful 
         			public void onComplete(Bundle values) {
@@ -92,7 +96,7 @@ public class BaiduPCSAction {
 		    		api.setAccessToken(PCSDemoInfo.access_token);
 		    		
 		    	    //Use pcs uploadFile API to uplaod files
-					final PCSActionInfo.PCSFileInfoResponse response = api.uploadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.mbRootPath+PCSDemoInfo.fileTitle+".txt", new BaiduPCSStatusListener(){
+					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api.uploadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.mbRootPath+PCSDemoInfo.fileTitle+".txt", new BaiduPCSStatusListener(){
 
 						@Override
 						public void onProgress(long bytes, long total) {
@@ -105,7 +109,7 @@ public class BaiduPCSAction {
 						
 		    			public void run(){
 		  
-		    				if(response.error_code == 0){
+		    				if(uploadResponse.error_code == 0){
 		    					
 		    					Toast.makeText(context,"上传成功", Toast.LENGTH_SHORT).show();
 		    					
@@ -113,12 +117,12 @@ public class BaiduPCSAction {
 		    					File file = new File(PCSDemoInfo.sourceFile);
 		    					file.delete();
 		    					
-	    					    //Bcak to the content activity
+	    					    //Back to the content activity
 		    					back(context);
 		    					
 		    				}else{
 		    					
-		    					Toast.makeText(context,"错误代码："+response.error_code, Toast.LENGTH_SHORT).show(); 
+		    					Toast.makeText(context,"错误代码："+uploadResponse.error_code, Toast.LENGTH_SHORT).show(); 
 		    				}
 		    				
 		    			}
@@ -148,7 +152,7 @@ public class BaiduPCSAction {
 		    		String path = PCSDemoInfo.mbRootPath;
 		    		
 		    		//Use list api
-		    		final PCSActionInfo.PCSListInfoResponse ret = api.list(path, "name", "asc");
+		    		final PCSActionInfo.PCSListInfoResponse listResponse = api.list(path, "name", "asc");
 		    				    		
 		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
 		    			
@@ -157,9 +161,9 @@ public class BaiduPCSAction {
 		    				ArrayList<HashMap<String, String>> list =new ArrayList<HashMap<String,String>>();   
 		    						    				
 
-		    				if("[]" != ret.list.toString()){
+		    				if( ! listResponse.list.isEmpty()){
 		    					   			    	            
-			    	            for(Iterator<PCSFileInfoResponse> i = ret.list.iterator(); i.hasNext();){
+			    	            for(Iterator<PCSFileInfoResponse> i = listResponse.list.iterator(); i.hasNext();){
 			    	            	
 			    	            	HashMap<String, String> map =new HashMap<String, String>();
 			    	            				    	            	
@@ -226,7 +230,7 @@ public class BaiduPCSAction {
 		    		PCSDemoInfo.target = context.getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
 		    		
 		    		//Call PCS downloadFile API
-		    		final PCSActionInfo.PCSSimplefiedResponse ret = api.downloadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.target,  new BaiduPCSStatusListener(){
+		    		final PCSActionInfo.PCSSimplefiedResponse downloadResponse = api.downloadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.target,  new BaiduPCSStatusListener(){
 
 						@Override
 						public void onProgress(long bytes, long total) {
@@ -238,7 +242,7 @@ public class BaiduPCSAction {
 		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
 		    			public void run(){
 		    				
-		    				if(ret.error_code == 0){
+		    				if(downloadResponse.error_code == 0){
 			    				try{
 			    					//The local store download files
 				    				File file = new File(PCSDemoInfo.target);			    				
@@ -289,11 +293,11 @@ public class BaiduPCSAction {
 		    		files.add(PCSDemoInfo.mbRootPath + PCSDemoInfo.fileTitle + ".txt");
 		    		
 		    		//Call delete api
-		    		final PCSActionInfo.PCSSimplefiedResponse ret = api.deleteFiles(files);
+		    		final PCSActionInfo.PCSSimplefiedResponse deleteResponse = api.deleteFiles(files);
 		    		
 		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
 		    			public void run(){
-		    				if(0 == ret.error_code){
+		    				if(0 == deleteResponse.error_code){
 		    							    							
 		    					if(PCSDemoInfo.statu == 2){
 		    						//First remove the clouds files, and then refresh content list
@@ -309,7 +313,7 @@ public class BaiduPCSAction {
 		    						} 						
 		    					}		    					
 		    				}else{
-		    					Toast.makeText(context, "删除失败！"+ret.message, Toast.LENGTH_SHORT).show();
+		    					Toast.makeText(context, "删除失败！"+deleteResponse.message, Toast.LENGTH_SHORT).show();
 		    				}
 		    			}
 		    		});	
@@ -366,24 +370,25 @@ public class BaiduPCSAction {
     }
  
     //Finish the program
-    public void  isExit(final Context context){
+    public void  exit(final Context context){
     	
         AlertDialog.Builder exitAlert = new AlertDialog.Builder(context);
         exitAlert.setIcon(R.drawable.alert_dark).setTitle("提示...").setMessage("你确定要离开客户端吗？");
         exitAlert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                
-                    public void onClick(DialogInterface dialog, int which) {
-                    	PCSDemoInfo.flag = 1;
+               public void onClick(DialogInterface dialog, int which) {
+                    	PCSDemoInfo.flag= 1;
                         Intent intent = new Intent(); 
                         intent.setClass(context, PCSDemoNoteActivity.class);//跳转到login界面，根据参数退出
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  //注意本行的FLAG设置,clear所有Activity记录
                         context.startActivity(intent);//注意啊，在跳转的页面中进行检测和退出
+
                     }
                 });
         
         exitAlert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
              
-                    public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 }).create();

@@ -111,7 +111,7 @@ public class EditActivity extends Activity {
 		
 		 switch (item.getItemId()) {
 		     case PCSDemoInfo.ITEM0:
-		    	 editNote.isExit(EditActivity.this);
+		    	 editNote.exit(EditActivity.this);
 		         break;
 		     case PCSDemoInfo.ITEM1:		    	 
 		    	 Toast.makeText(getApplicationContext(), "自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
