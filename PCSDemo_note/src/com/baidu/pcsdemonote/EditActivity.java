@@ -43,21 +43,20 @@ import android.widget.Toast;
 public class EditActivity extends Activity {
     /** Called when the activity is first created. */
 	
-	private TextView title = null;	
-	private EditText content = null;	
-	private ImageButton editBack = null;
-	private ImageButton save = null;
+    private TextView title = null;	
+    private EditText content = null;	
+    private ImageButton editBack = null;
+    private ImageButton save = null;
 	
-	private String output_content = null;		
-	private int save_Flag = 0;	
-	BaiduPCSAction editNote = new BaiduPCSAction(); 
+    private String output_content = null;		
+    private int save_Flag = 0;	
+    BaiduPCSAction editNote = new BaiduPCSAction(); 
     	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit);
-        
-//        editNote.download(EditActivity.this);
+
         download();
         
         title = (TextView)findViewById(R.id.edit_title);
@@ -72,18 +71,18 @@ public class EditActivity extends Activity {
     
         editBack.setOnClickListener(new Button.OnClickListener(){
         	
-        	public void onClick(View v){        		
-        		editNote.back(EditActivity.this);       
-        	}
+            public void onClick(View v){        		
+        	editNote.back(EditActivity.this);       
+            }
         });
         
         save.setOnClickListener(new Button.OnClickListener(){
         	
-        	public void onClick(View v){
+            public void onClick(View v){
         		
-        		PCSDemoInfo.fileContent = content.getText().toString();        		
-        		editNote.save(EditActivity.this);
-        	}
+        	PCSDemoInfo.fileContent = content.getText().toString();        		
+        	editNote.save(EditActivity.this);
+            }
         });       
     }
     
@@ -92,102 +91,102 @@ public class EditActivity extends Activity {
     	
     	if(null != PCSDemoInfo.access_token){
 
-    		Thread workThread = new Thread(new Runnable(){
-				public void run() {
+    	    Thread workThread = new Thread(new Runnable(){
+		public void run() {
 
-		    		BaiduPCSAPI api = new BaiduPCSAPI();
-		    		api.setAccessToken(PCSDemoInfo.access_token);
+		    BaiduPCSAPI api = new BaiduPCSAPI();
+		    api.setAccessToken(PCSDemoInfo.access_token);
 		    		
-		    		//Get the download file storage path on cloud
-		    		PCSDemoInfo.sourceFile = PCSDemoInfo.bdRootPath + PCSDemoInfo.fileTitle+".txt";
+		    //Get the download file storage path on cloud
+		    PCSDemoInfo.sourceFile = PCSDemoInfo.bdRootPath + PCSDemoInfo.fileTitle+".txt";
 		    		
-		    		//Set the download file storage path
-		    		PCSDemoInfo.target = getApplicationContext().getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
+		    //Set the download file storage path
+		    PCSDemoInfo.target = getApplicationContext().getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
 		    		
-		    		//Call PCS downloadFile API
-		    		final PCSActionInfo.PCSSimplefiedResponse downloadResponse = api.downloadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.target,  new BaiduPCSStatusListener(){
+		    //Call PCS downloadFile API
+		    final PCSActionInfo.PCSSimplefiedResponse downloadResponse = api.downloadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.target,  new BaiduPCSStatusListener(){
 
-						@Override
-						public void onProgress(long bytes, long total) {
-							// TODO Auto-generated method stub								
-						}		    			
-		    		});
+			@Override
+			public void onProgress(long bytes, long total) {
+			    // TODO Auto-generated method stub								
+			}		    			
+		    });
 		    		
-		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
-		    			public void run(){
+		    PCSDemoInfo.uiThreadHandler.post(new Runnable(){
+		    	public void run(){
 		    				
-		    				if(downloadResponse.error_code == 0){
-			    				try{
-			    					//The local store download files
-				    				File file = new File(PCSDemoInfo.target);			    				
-				    				FileInputStream inStream = new FileInputStream(file);
+		    	    if(downloadResponse.error_code == 0){
+			    	try{
+			    	    //The local store download files
+				    File file = new File(PCSDemoInfo.target);			    				
+				    FileInputStream inStream = new FileInputStream(file);
 				    				
-				    				int length = inStream.available();				    				
-				    				byte [] buffer = new byte[length];				    				
-				    				inStream.read(buffer);
+				    int length = inStream.available();				    				
+				    byte [] buffer = new byte[length];				    				
+				    inStream.read(buffer);
 				    				
-				    				PCSDemoInfo.fileContent = EncodingUtils.getString(buffer, "UTF-8");				    				
-				    		        content.setText(PCSDemoInfo.fileContent);
+				    PCSDemoInfo.fileContent = EncodingUtils.getString(buffer, "UTF-8");				    				
+				    content.setText(PCSDemoInfo.fileContent);
 				    		        
-				    				inStream.close();
+				    inStream.close();
 				    								    				
-			    				}catch (Exception e) {
-									// TODO: handle exception
+			    	}catch (Exception e) {
+				    // TODO: handle exception
 			    					
-			    					Toast.makeText(getApplicationContext(), "读取文件失败！", Toast.LENGTH_SHORT).show();
-								}
-		    				}else{
-		    					
-		    					Toast.makeText(getApplicationContext(), "下载失败！", Toast.LENGTH_SHORT).show();
-		    				}	
-		    			}
-		    		});	
+			    	    Toast.makeText(getApplicationContext(), "读取文件失败！", Toast.LENGTH_SHORT).show();
 				}
-			});
+		    	    }else{
+		    					
+		    		Toast.makeText(getApplicationContext(), "下载失败！", Toast.LENGTH_SHORT).show();
+		    	}	
+		    }
+		});	
+	    }
+        });
 			 
-    		workThread.start();
+    	workThread.start();
     	}
     }
     
-	public void onResume() {
+    public void onResume() {
 		
-		super.onResume();
-		StatService.onResume(this);
-	}
+	super.onResume();
+	StatService.onResume(this);
+    }
 
-	public void onPause() {
+    public void onPause() {
 		
-		super.onPause();
-		StatService.onPause(this);
-	}
+	super.onPause();
+	StatService.onPause(this);
+    }
+        
+    //Create menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	// TODO Auto-generated method stub
+	super.onCreateOptionsMenu(menu);
+	menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
+	menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
+	    
+	return true;
+    }  
     
-    // Back to the show content activity
     
     @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		super.onCreateOptionsMenu(menu);
-	    menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
-	    menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
-	    
-	    return true;
-	}  
-    
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(MenuItem item) {
+	/ TODO Auto-generated method stub
+	super.onOptionsItemSelected(item);
 		
-		 switch (item.getItemId()) {
-		     case PCSDemoInfo.ITEM0:
-		    	 editNote.exit(EditActivity.this);
-		         break;
-		     case PCSDemoInfo.ITEM1:		    	 
-		    	 Toast.makeText(getApplicationContext(), "自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
-		         break;
-		 }
-		 
-		return true;
+	switch (item.getItemId()) {
+	    case PCSDemoInfo.ITEM0:
+		 createNote.exit(CreateActivity.this);
+		 break;
+	    case PCSDemoInfo.ITEM1:		    	 
+		 Toast.makeText(getApplicationContext(), "我是自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
+		 break;
 	}
+		 
+	return true;
+    }
 
 }

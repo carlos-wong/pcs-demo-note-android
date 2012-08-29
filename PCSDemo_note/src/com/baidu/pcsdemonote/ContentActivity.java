@@ -28,11 +28,10 @@ import android.widget.Toast;
 
 public class ContentActivity extends ListActivity {
     /** Called when the activity is first created. */
-			
-	private ImageButton create = null;
-	private ImageButton refresh = null;
+    private ImageButton create = null;
+    private ImageButton refresh = null;
 	
-	BaiduPCSAction contentNote = new BaiduPCSAction();
+    BaiduPCSAction contentNote = new BaiduPCSAction();
 		
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,30 +49,31 @@ public class ContentActivity extends ListActivity {
         contentNote.list(ContentActivity.this);
         create.setOnClickListener(new Button.OnClickListener(){
         	
-        	public void onClick(View v){	
-        		create();
-        	}
+            public void onClick(View v){	
+        	create();
+            }
         });
         
         refresh.setOnClickListener(new Button.OnClickListener(){
         	
-        	public void onClick(View v){       		
-        		refresh();
-        	}
+             public void onClick(View v){       		
+        	refresh();
+            }
         });       
     }
+
     //Start statistics       
-	public void onResume() {
+    public void onResume() {
 
-		super.onResume();
-		StatWrapper.onResume(this);
-	}
+	super.onResume();
+	StatWrapper.onResume(this);
+    }
 
-	public void onPause() {
+    public void onPause() {
 
-		super.onPause();
-		StatWrapper.onPause(this);
-	}
+	super.onPause();
+	StatWrapper.onPause(this);
+    }
     
     //Set item response function
     @Override
@@ -82,39 +82,39 @@ public class ContentActivity extends ListActivity {
     	super.onListItemClick(l, v, position, id);
     	
     	//Get filename form item
-    	 PCSDemoInfo.fileTitle = l.getAdapter().getItem(position).toString();   	
-    	 PCSDemoInfo.fileTitle = PCSDemoInfo.fileTitle.substring(PCSDemoInfo.fileTitle.indexOf("=")+1, PCSDemoInfo.fileTitle.lastIndexOf(","));
+    	PCSDemoInfo.fileTitle = l.getAdapter().getItem(position).toString();   	
+    	PCSDemoInfo.fileTitle = PCSDemoInfo.fileTitle.substring(PCSDemoInfo.fileTitle.indexOf("=")+1, PCSDemoInfo.fileTitle.lastIndexOf(","));
     	 
-		//Select operation(edit/delete/cancel)
+        //Select operation(edit/delete/cancel)
     	AlertDialog.Builder onListItemClickAlert = new AlertDialog.Builder(ContentActivity.this);
     	onListItemClickAlert.setTitle("操作选择：");
     		
     	onListItemClickAlert.setPositiveButton("编辑", new DialogInterface.OnClickListener() {
 			
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+	    public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub
 				
-				Intent edit_intent = new Intent();
-			    edit_intent.setClass(getApplicationContext(),EditActivity.class);					
-				ContentActivity.this.startActivity(edit_intent);
-			}
-		});
+		Intent edit_intent = new Intent();
+		edit_intent.setClass(getApplicationContext(),EditActivity.class);					
+		ContentActivity.this.startActivity(edit_intent);
+	    }
+	});
     	
     	onListItemClickAlert.setNeutralButton(R.string.delete, new DialogInterface.OnClickListener() {
 			
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub				
-				contentNote.delete(ContentActivity.this);		
-			}
-		});
+	    public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub				
+		contentNote.delete(ContentActivity.this);		
+	    }
+	});
     	
     	onListItemClickAlert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+	    public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub
 				
-			}
-		});    	
+	    }
+	});    	
     	onListItemClickAlert.show();      	 
     }
         
@@ -128,102 +128,95 @@ public class ContentActivity extends ListActivity {
     	
     	final EditText input = new EditText(ContentActivity.this);
     	
-    	alert.setView(input);
-    	
+    	alert.setView(input);  	
     	alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				PCSDemoInfo.fileTitle = input.getText().toString();
+	public void onClick(DialogInterface dialog, int which) {
+	    // TODO Auto-generated method stub
+	    PCSDemoInfo.fileTitle = input.getText().toString();
+								
+	    PCSDemoInfo.fileFlag = 0;
+	    //Judge whether filename is empty			
+            if(PCSDemoInfo.fileTitle.isEmpty()){                	
+                PCSDemoInfo.fileFlag = 1;                	
+            }
+            //Judge whether filename is exist		
+	    for(Iterator<String> file = PCSDemoInfo.fileNameList.iterator();file.hasNext();){					
+		if (file.next().equals(PCSDemoInfo.fileTitle)){						
+		    PCSDemoInfo.fileFlag = 2;
+		}										
+	    }
 				
-				//this is debug
-//				long curDate = System.currentTimeMillis();//获取当前时间
-//				String date = String.valueOf(curDate);
-//				
-//				PCSDemoInfo.fileTitle = date;
-				
-				PCSDemoInfo.fileFlag = 0;
-				//Judge whether filename is empty			
-                if(PCSDemoInfo.fileTitle.isEmpty()){                	
-                	PCSDemoInfo.fileFlag = 1;                	
-                }
-            	//Judge whether filename is exist		
-				for(Iterator<String> file = PCSDemoInfo.fileNameList.iterator();file.hasNext();){					
-					if (file.next().equals(PCSDemoInfo.fileTitle)){						
-						PCSDemoInfo.fileFlag = 2;
-					}										
-				}
-				
-				if(PCSDemoInfo.fileFlag == 1){
-					Toast.makeText(getApplicationContext(), "文件名不能为空！", Toast.LENGTH_SHORT).show();
-				}else{
+	    if(PCSDemoInfo.fileFlag == 1){
+		Toast.makeText(getApplicationContext(), "文件名不能为空！", Toast.LENGTH_SHORT).show();
+	    }else{
 					
-					if(PCSDemoInfo.fileFlag == 2)
+		if(PCSDemoInfo.fileFlag == 2)
 					{
-						Toast.makeText(getApplicationContext(), "文件名已存在！", Toast.LENGTH_SHORT).show();					
-					}else{						
-						//back to create activity
-						Intent create_intent = new Intent();											
-						create_intent.setClass(getApplicationContext(), CreateActivity.class);						
-						ContentActivity.this.startActivity(create_intent);					
-					}					
-				}
-			}
-		});
+		    Toast.makeText(getApplicationContext(), "文件名已存在！", Toast.LENGTH_SHORT).show();					
+		}else{						
+	            //back to create activity
+		    Intent create_intent = new Intent();											
+		    create_intent.setClass(getApplicationContext(), CreateActivity.class);						
+		    ContentActivity.this.startActivity(create_intent);					
+		}					
+	    }
+	}
+    });
     	
-    	alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub				
-			}
-		});
+        public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub				
+	}
+    });
     	
-    	alert.show();      	
+    alert.show();      	
     }
     
-    //Refresh  content list
+    //Refresh content list
     private void refresh(){    	
     	contentNote.list(ContentActivity.this);
     } 
     
     @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		super.onCreateOptionsMenu(menu);
-	    menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
-	    menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
+    public boolean onCreateOptionsMenu(Menu menu) {
+	// TODO Auto-generated method stub
+	super.onCreateOptionsMenu(menu);
+	menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
+	menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
 	    
-	    return true;
-	}  
+	return true;
+    }  
     
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		super.onOptionsItemSelected(item);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	// TODO Auto-generated method stub
+	super.onOptionsItemSelected(item);
 		
-		 switch (item.getItemId()) {
-		     case PCSDemoInfo.ITEM0:
-		    	 contentNote.exit(ContentActivity.this);
-		         break;
-		     case PCSDemoInfo.ITEM1:		    	 
-		    	 Toast.makeText(getApplicationContext(), "自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
-		         break;
-		 }
-		 
-		return true;
+	switch (item.getItemId()) {
+	    case PCSDemoInfo.ITEM0:
+		 contentNote.exit(ContentActivity.this);
+		 break;
+	    case PCSDemoInfo.ITEM1:		    	 
+		 Toast.makeText(getApplicationContext(), "自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
+		 break;
 	}
+		 
+	return true;
+    }
 	
 }
 
 
 class StatWrapper {
-	public static void onResume(Context context) {
+    public static void onResume(Context context) {
 
-		StatService.onResume(context);
-	}
+	StatService.onResume(context);
+    }
 
-	public static void onPause(Context context) {
+    public static void onPause(Context context) {
 
-		StatService.onPause(context);
-	}
+	StatService.onPause(context);
+    }
 }
