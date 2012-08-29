@@ -2,9 +2,10 @@ package com.baidu.pcsdemonote;
 
 
 import java.util.Iterator;
-
+import com.baidu.mobstat.StatService;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,18 +26,14 @@ import android.widget.Toast;
  * 
  */
 
-
 public class ContentActivity extends ListActivity {
     /** Called when the activity is first created. */
-		
-	
+			
 	private ImageButton create = null;
 	private ImageButton refresh = null;
 	
 	BaiduPCSAction contentNote = new BaiduPCSAction();
-	
-	
-	
+		
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
@@ -46,13 +43,11 @@ public class ContentActivity extends ListActivity {
         create = (ImageButton)findViewById(R.id.btncreate);
         refresh = (ImageButton)findViewById(R.id.btnrefresh);
       
-        PCSDemoInfo.uiThreadHandler = new Handler(); 
-        
-        PCSDemoInfo.statu = 2;
+        PCSDemoInfo.uiThreadHandler = new Handler();         
+        PCSDemoInfo.status = 2;
         
         //Content list
         contentNote.list(ContentActivity.this);
-                
         create.setOnClickListener(new Button.OnClickListener(){
         	
         	public void onClick(View v){	
@@ -65,9 +60,20 @@ public class ContentActivity extends ListActivity {
         	public void onClick(View v){       		
         		refresh();
         	}
-        });
-        
+        });       
     }
+    //Start statistics       
+	public void onResume() {
+
+		super.onResume();
+		StatWrapper.onResume(this);
+	}
+
+	public void onPause() {
+
+		super.onPause();
+		StatWrapper.onPause(this);
+	}
     
     //Set item response function
     @Override
@@ -76,8 +82,7 @@ public class ContentActivity extends ListActivity {
     	super.onListItemClick(l, v, position, id);
     	
     	//Get filename form item
-    	 PCSDemoInfo.fileTitle = l.getAdapter().getItem(position).toString();
-    	
+    	 PCSDemoInfo.fileTitle = l.getAdapter().getItem(position).toString();   	
     	 PCSDemoInfo.fileTitle = PCSDemoInfo.fileTitle.substring(PCSDemoInfo.fileTitle.indexOf("=")+1, PCSDemoInfo.fileTitle.lastIndexOf(","));
     	 
 		//Select operation(edit/delete/cancel)
@@ -95,11 +100,10 @@ public class ContentActivity extends ListActivity {
 			}
 		});
     	
-    	onListItemClickAlert.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+    	onListItemClickAlert.setNeutralButton(R.string.delete, new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub				
 				contentNote.delete(ContentActivity.this);		
 			}
 		});
@@ -110,10 +114,8 @@ public class ContentActivity extends ListActivity {
 				// TODO Auto-generated method stub
 				
 			}
-		});
-    	
-    	onListItemClickAlert.show();  
-    	 
+		});    	
+    	onListItemClickAlert.show();      	 
     }
         
      //Create note
@@ -134,6 +136,12 @@ public class ContentActivity extends ListActivity {
 				// TODO Auto-generated method stub
 				PCSDemoInfo.fileTitle = input.getText().toString();
 				
+				//this is debug
+//				long curDate = System.currentTimeMillis();//获取当前时间
+//				String date = String.valueOf(curDate);
+//				
+//				PCSDemoInfo.fileTitle = date;
+				
 				PCSDemoInfo.fileFlag = 0;
 				//Judge whether filename is empty			
                 if(PCSDemoInfo.fileTitle.isEmpty()){                	
@@ -152,8 +160,7 @@ public class ContentActivity extends ListActivity {
 					
 					if(PCSDemoInfo.fileFlag == 2)
 					{
-						Toast.makeText(getApplicationContext(), "文件名已存在！", Toast.LENGTH_SHORT).show();
-					
+						Toast.makeText(getApplicationContext(), "文件名已存在！", Toast.LENGTH_SHORT).show();					
 					}else{						
 						//back to create activity
 						Intent create_intent = new Intent();											
@@ -206,4 +213,17 @@ public class ContentActivity extends ListActivity {
 		return true;
 	}
 	
+}
+
+
+class StatWrapper {
+	public static void onResume(Context context) {
+
+		StatService.onResume(context);
+	}
+
+	public static void onPause(Context context) {
+
+		StatService.onPause(context);
+	}
 }

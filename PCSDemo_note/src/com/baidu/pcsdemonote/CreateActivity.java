@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.mobstat.StatService;
 import com.baidu.oauth2.BaiduOAuth;
 import com.baidu.oauth2.BaiduOAuthViaDialog;
 import com.baidu.pcs.BaiduPCSAPI;
@@ -47,8 +48,7 @@ public class CreateActivity extends Activity {
 	private EditText content = null;	
 	private ImageButton editBack = null;
 	private ImageButton save = null;
-	
-	
+		
 	BaiduPCSAction createNote = new BaiduPCSAction(); 
 	
     @Override
@@ -57,23 +57,20 @@ public class CreateActivity extends Activity {
         setContentView(R.layout.create);
         
         //Set status
-        PCSDemoInfo.statu = 0;
+        PCSDemoInfo.status = 0;
                 
         title = (TextView)findViewById(R.id.titleedit);
-        content = (EditText)findViewById(R.id.contentedit);
-        
+        content = (EditText)findViewById(R.id.contentedit);                
         editBack = (ImageButton)findViewById(R.id.btnback);
         save = (ImageButton)findViewById(R.id.btnsave);
               
         PCSDemoInfo.uiThreadHandler = new Handler(); 
         
         //Set tilte
-        title.setText(PCSDemoInfo.fileTitle);
-        
+        title.setText(PCSDemoInfo.fileTitle);       
         editBack.setOnClickListener(new Button.OnClickListener(){
         	
-        	public void onClick(View v){ 
-        		
+        	public void onClick(View v){         		
                  createNote.back(CreateActivity.this);                 
         	}
         });
@@ -82,13 +79,25 @@ public class CreateActivity extends Activity {
         	
         	public void onClick(View v){
         		
-        		PCSDemoInfo.fileContent = content.getText().toString();
-        		
+        		PCSDemoInfo.fileContent = content.getText().toString();        		        		
         		createNote.save(CreateActivity.this); 
         	}
         });
         
     }
+    
+    
+	public void onResume() {
+		
+		super.onResume();
+		StatService.onResume(this);
+	}
+
+	public void onPause() {
+		
+		super.onPause();
+		StatService.onPause(this);
+	}
     
     
     //Create menu

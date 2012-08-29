@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.http.util.EncodingUtils;
 
+import com.baidu.mobstat.StatService;
 import com.baidu.pcs.BaiduPCSAPI;
 import com.baidu.pcs.BaiduPCSStatusListener;
 import com.baidu.pcs.PCSActionInfo;
@@ -47,36 +48,31 @@ public class EditActivity extends Activity {
 	private ImageButton editBack = null;
 	private ImageButton save = null;
 	
-	private String output_content = null;
-		
-	private int save_Flag = 0;
-	
+	private String output_content = null;		
+	private int save_Flag = 0;	
 	BaiduPCSAction editNote = new BaiduPCSAction(); 
-	
+    	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit);
+        
+//        editNote.download(EditActivity.this);
+        download();
         
         title = (TextView)findViewById(R.id.edit_title);
         content = (EditText)findViewById(R.id.edit_content);        
         editBack = (ImageButton)findViewById(R.id.btneditback);
         save = (ImageButton)findViewById(R.id.btneditsave);
         
-        PCSDemoInfo.statu = 1;
-        
-        PCSDemoInfo.uiThreadHandler = new Handler(); 
-        
-        title.setText(PCSDemoInfo.fileTitle);
-        
-        editNote.download(EditActivity.this);
-    	
-        content.setText(PCSDemoInfo.fileContent);
- 
+        PCSDemoInfo.status = 1;        
+        PCSDemoInfo.uiThreadHandler = new Handler();
+               
+        title.setText(PCSDemoInfo.fileTitle);	               
+    
         editBack.setOnClickListener(new Button.OnClickListener(){
         	
-        	public void onClick(View v){
-        		
+        	public void onClick(View v){        		
         		editNote.back(EditActivity.this);       
         	}
         });
@@ -85,13 +81,86 @@ public class EditActivity extends Activity {
         	
         	public void onClick(View v){
         		
-        		PCSDemoInfo.fileContent = content.getText().toString();
-        		
+        		PCSDemoInfo.fileContent = content.getText().toString();        		
         		editNote.save(EditActivity.this);
         	}
         });       
     }
-     
+    
+    
+    public void download(){
+    	
+    	if(null != PCSDemoInfo.access_token){
+
+    		Thread workThread = new Thread(new Runnable(){
+				public void run() {
+
+		    		BaiduPCSAPI api = new BaiduPCSAPI();
+		    		api.setAccessToken(PCSDemoInfo.access_token);
+		    		
+		    		//Get the download file storage path on cloud
+		    		PCSDemoInfo.sourceFile = PCSDemoInfo.bdRootPath + PCSDemoInfo.fileTitle+".txt";
+		    		
+		    		//Set the download file storage path
+		    		PCSDemoInfo.target = getApplicationContext().getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
+		    		
+		    		//Call PCS downloadFile API
+		    		final PCSActionInfo.PCSSimplefiedResponse downloadResponse = api.downloadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.target,  new BaiduPCSStatusListener(){
+
+						@Override
+						public void onProgress(long bytes, long total) {
+							// TODO Auto-generated method stub								
+						}		    			
+		    		});
+		    		
+		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
+		    			public void run(){
+		    				
+		    				if(downloadResponse.error_code == 0){
+			    				try{
+			    					//The local store download files
+				    				File file = new File(PCSDemoInfo.target);			    				
+				    				FileInputStream inStream = new FileInputStream(file);
+				    				
+				    				int length = inStream.available();				    				
+				    				byte [] buffer = new byte[length];				    				
+				    				inStream.read(buffer);
+				    				
+				    				PCSDemoInfo.fileContent = EncodingUtils.getString(buffer, "UTF-8");				    				
+				    		        content.setText(PCSDemoInfo.fileContent);
+				    		        
+				    				inStream.close();
+				    								    				
+			    				}catch (Exception e) {
+									// TODO: handle exception
+			    					
+			    					Toast.makeText(getApplicationContext(), "读取文件失败！", Toast.LENGTH_SHORT).show();
+								}
+		    				}else{
+		    					
+		    					Toast.makeText(getApplicationContext(), "下载失败！", Toast.LENGTH_SHORT).show();
+		    				}	
+		    			}
+		    		});	
+				}
+			});
+			 
+    		workThread.start();
+    	}
+    }
+    
+	public void onResume() {
+		
+		super.onResume();
+		StatService.onResume(this);
+	}
+
+	public void onPause() {
+		
+		super.onPause();
+		StatService.onPause(this);
+	}
+    
     // Back to the show content activity
     
     @Override

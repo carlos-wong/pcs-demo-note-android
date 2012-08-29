@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.baidu.mobstat.StatService;
 import com.baidu.pcsdemonote.BaiduPCSAction;
 
 /*
@@ -14,12 +16,7 @@ import com.baidu.pcsdemonote.BaiduPCSAction;
 
 public class PCSDemoNoteActivity extends Activity {
 	
-	private Button login = null;
-    
-    /*
-     * mbApiKey should be your app_key, please instead of "your app_key"
-     */
-	
+	private Button login = null;	
     BaiduPCSAction loginNote = new BaiduPCSAction();
     
     @Override
@@ -28,8 +25,7 @@ public class PCSDemoNoteActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        login = (Button)findViewById(R.id.btnlogin);
-        
+        login = (Button)findViewById(R.id.btnlogin);        
         login.setOnClickListener(new Button.OnClickListener(){
         	
             public void onClick(View v) {
@@ -60,6 +56,19 @@ public class PCSDemoNoteActivity extends Activity {
 		}else{
 			super.onResume();
 		}
+	}
+	
+	
+	public void onResume() {
+		
+		super.onResume();
+		StatService.onResume(this);
+	}
+
+	public void onPause() {
+		
+		super.onPause();
+		StatService.onPause(this);
 	}
     
 }
