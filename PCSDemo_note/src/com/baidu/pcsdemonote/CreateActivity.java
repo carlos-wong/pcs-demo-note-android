@@ -44,12 +44,12 @@ import android.widget.Toast;
 public class CreateActivity extends Activity {
     /** Called when the activity is first created. */
 	
-    private TextView  title = null;	
-    private EditText content = null;	
-    private ImageButton editBack = null;
-    private ImageButton save = null;
+	private TextView  title = null;	
+	private EditText content = null;	
+	private ImageButton editBack = null;
+	private ImageButton save = null;
 		
-    BaiduPCSAction createNote = new BaiduPCSAction(); 
+	BaiduPCSAction createNote = new BaiduPCSAction(); 
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,62 +70,64 @@ public class CreateActivity extends Activity {
         title.setText(PCSDemoInfo.fileTitle);       
         editBack.setOnClickListener(new Button.OnClickListener(){
         	
-            public void onClick(View v){         		
+        	public void onClick(View v){         		
                  createNote.back(CreateActivity.this);                 
-            }
+        	}
         });
         
         save.setOnClickListener(new Button.OnClickListener(){
         	
-            public void onClick(View v){
+        	public void onClick(View v){
         		
-        	PCSDemoInfo.fileContent = content.getText().toString();        		        		
-        	createNote.save(CreateActivity.this); 
-            }
+        		PCSDemoInfo.fileContent = content.getText().toString();        		        		
+        		createNote.save(CreateActivity.this); 
+        	}
         });
         
     }
     
     
-    public void onResume() {
+	public void onResume() {
 		
-	super.onResume();
-	StatService.onResume(this);
-    }
+		super.onResume();
+		StatService.onResume(this);
+	}
 
-    public void onPause() {
+	public void onPause() {
 		
-	super.onPause();
-	StatService.onPause(this);
-    }
-        
+		super.onPause();
+		StatService.onPause(this);
+		finish();
+	}
+    
+    
     //Create menu
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-	// TODO Auto-generated method stub
-	super.onCreateOptionsMenu(menu);
-	menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
-	menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu);
+	    menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
+	    menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
 	    
-	return true;
-    }  
+	    return true;
+	}  
     
     
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-	/ TODO Auto-generated method stub
-	super.onOptionsItemSelected(item);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		super.onOptionsItemSelected(item);
 		
-	switch (item.getItemId()) {
-	    case PCSDemoInfo.ITEM0:
-		 createNote.exit(CreateActivity.this);
-		 break;
-	    case PCSDemoInfo.ITEM1:		    	 
-		 Toast.makeText(getApplicationContext(), "我是自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
-		 break;
-	}
+		 switch (item.getItemId()) {
+		     case PCSDemoInfo.ITEM0:
+		    	 createNote.exit(CreateActivity.this);
+		         break;
+		     case PCSDemoInfo.ITEM1:		    	 
+		    	 Toast.makeText(getApplicationContext(), "我是自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
+		         break;
+		 }
 		 
-	return true;
-    }
+		return true;
+	}
 
 }
