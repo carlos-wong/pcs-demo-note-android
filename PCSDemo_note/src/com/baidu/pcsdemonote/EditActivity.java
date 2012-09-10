@@ -69,7 +69,7 @@ public class EditActivity extends Activity {
         
         title.setText(PCSDemoInfo.fileTitle);
         
-        editNote.download(EditActivity.this);
+        download();
     	
         content.setText(PCSDemoInfo.fileContent);
  
@@ -91,6 +91,73 @@ public class EditActivity extends Activity {
         	}
         });       
     }
+    
+    
+    
+    public void download(){
+    	
+    	if(null != PCSDemoInfo.access_token){
+
+    		Thread workThread = new Thread(new Runnable(){
+				public void run() {
+
+		    		BaiduPCSAPI api = new BaiduPCSAPI();
+		    		api.setAccessToken(PCSDemoInfo.access_token);
+		    		
+		    		//Get the download file storage path on cloud
+		    		PCSDemoInfo.sourceFile = PCSDemoInfo.mbRootPath + PCSDemoInfo.fileTitle+".txt";
+		    		
+		    		//Set the download file storage path
+		    		PCSDemoInfo.target = getApplicationContext().getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
+		    		
+		    		//Call PCS downloadFile API
+		    		final PCSActionInfo.PCSSimplefiedResponse downloadResponse = api.downloadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.target,  new BaiduPCSStatusListener(){
+
+						@Override
+						public void onProgress(long bytes, long total) {
+							// TODO Auto-generated method stub
+								
+						}		    			
+		    		});
+		    		
+		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
+		    			public void run(){
+		    				
+		    				if(downloadResponse.error_code == 0){
+			    				try{
+			    					//The local store download files
+				    				File file = new File(PCSDemoInfo.target);			    				
+				    				FileInputStream inStream = new FileInputStream(file);
+				    				
+				    				int length = inStream.available();
+				    				
+				    				byte [] buffer = new byte[length];
+				    				
+				    				inStream.read(buffer);
+				    				
+				    				PCSDemoInfo.fileContent = EncodingUtils.getString(buffer, "UTF-8");
+				    				inStream.close();
+				    				
+			    				}catch (Exception e) {
+									// TODO: handle exception
+			    					
+			    					Toast.makeText(getApplicationContext(), "读取文件失败！", Toast.LENGTH_SHORT).show();
+								}
+		    				}else{
+		    					
+		    					Toast.makeText(getApplicationContext(), "下载失败！", Toast.LENGTH_SHORT).show();
+		    				}	
+		    			}
+		    		});	
+				}
+			});
+			 
+    		workThread.start();
+    	}
+    }
+    
+    
+    
      
     // Back to the show content activity
     
