@@ -96,8 +96,8 @@ public class CreateActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu);
-	    menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
-	    menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
+	    menu.add(0, PCSDemoInfo.ITEM0, 0,"脥脣鲁枚");
+	    menu.add(0, PCSDemoInfo.ITEM1, 0, "鹿脴脫脷脦脪脙脟");
 	    
 	    return true;
 	}  
@@ -113,7 +113,7 @@ public class CreateActivity extends Activity {
 		    	 createNote.exit(CreateActivity.this);
 		         break;
 		     case PCSDemoInfo.ITEM1:		    	 
-		    	 Toast.makeText(getApplicationContext(), "我是自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
+		    	 Toast.makeText(getApplicationContext(), "脦脪脢脟脳脭脫脡驴陋路垄脮脽拢卢潞脟潞脟拢隆", Toast.LENGTH_SHORT).show();
 		         break;
 		 }
 		 

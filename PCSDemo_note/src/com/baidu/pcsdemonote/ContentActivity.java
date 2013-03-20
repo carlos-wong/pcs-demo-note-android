@@ -82,9 +82,9 @@ public class ContentActivity extends ListActivity {
     	 
 		//Select operation(edit/delete/cancel)
     	AlertDialog.Builder onListItemClickAlert = new AlertDialog.Builder(ContentActivity.this);
-    	onListItemClickAlert.setTitle("²Ù×÷Ñ¡Ôñ£º");
+    	onListItemClickAlert.setTitle("æ“ä½œé€‰æ‹©ï¼š");
     		
-    	onListItemClickAlert.setPositiveButton("±à¼­", new DialogInterface.OnClickListener() {
+    	onListItemClickAlert.setPositiveButton("ç¼–è¾‘", new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -95,7 +95,7 @@ public class ContentActivity extends ListActivity {
 			}
 		});
     	
-    	onListItemClickAlert.setNeutralButton("É¾³ı", new DialogInterface.OnClickListener() {
+    	onListItemClickAlert.setNeutralButton("åˆ é™¤", new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -147,12 +147,12 @@ public class ContentActivity extends ListActivity {
 				}
 				
 				if(PCSDemoInfo.fileFlag == 1){
-					Toast.makeText(getApplicationContext(), "ÎÄ¼şÃû²»ÄÜÎª¿Õ£¡", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "æ–‡ä»¶åä¸èƒ½ä¸ºç©ºï¼", Toast.LENGTH_SHORT).show();
 				}else{
 					
 					if(PCSDemoInfo.fileFlag == 2)
 					{
-						Toast.makeText(getApplicationContext(), "ÎÄ¼şÃûÒÑ´æÔÚ£¡", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), "æ–‡ä»¶åå·²å­˜åœ¨ï¼", Toast.LENGTH_SHORT).show();
 					
 					}else{						
 						//back to create activity
@@ -183,8 +183,8 @@ public class ContentActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu);
-	    menu.add(0, PCSDemoInfo.ITEM0, 0,"ÍË³ö");
-	    menu.add(0, PCSDemoInfo.ITEM1, 0, "¹ØÓÚÎÒÃÇ");
+	    menu.add(0, PCSDemoInfo.ITEM0, 0,"é€€å‡º");
+	    menu.add(0, PCSDemoInfo.ITEM1, 0, "å…³äºæˆ‘ä»¬");
 	    
 	    return true;
 	}  
@@ -199,7 +199,7 @@ public class ContentActivity extends ListActivity {
 		    	 contentNote.exit(ContentActivity.this);
 		         break;
 		     case PCSDemoInfo.ITEM1:		    	 
-		    	 Toast.makeText(getApplicationContext(), "×ÔÓÉ¿ª·¢Õß£¬ºÇºÇ£¡", Toast.LENGTH_SHORT).show();
+		    	 Toast.makeText(getApplicationContext(), "è‡ªç”±å¼€å‘è€…ï¼Œå‘µå‘µï¼", Toast.LENGTH_SHORT).show();
 		         break;
 		 }
 		 

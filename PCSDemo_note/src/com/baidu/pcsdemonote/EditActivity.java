@@ -141,11 +141,11 @@ public class EditActivity extends Activity {
 			    				}catch (Exception e) {
 									// TODO: handle exception
 			    					
-			    					Toast.makeText(getApplicationContext(), "读取文件失败！", Toast.LENGTH_SHORT).show();
+			    					Toast.makeText(getApplicationContext(), "露脕脠隆脦脛录镁脢搂掳脺拢隆", Toast.LENGTH_SHORT).show();
 								}
 		    				}else{
 		    					
-		    					Toast.makeText(getApplicationContext(), "下载失败！", Toast.LENGTH_SHORT).show();
+		    					Toast.makeText(getApplicationContext(), "脧脗脭脴脢搂掳脺拢隆", Toast.LENGTH_SHORT).show();
 		    				}	
 		    			}
 		    		});	
@@ -165,8 +165,8 @@ public class EditActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu);
-	    menu.add(0, PCSDemoInfo.ITEM0, 0,"退出");
-	    menu.add(0, PCSDemoInfo.ITEM1, 0, "关于我们");
+	    menu.add(0, PCSDemoInfo.ITEM0, 0,"脥脣鲁枚");
+	    menu.add(0, PCSDemoInfo.ITEM1, 0, "鹿脴脫脷脦脪脙脟");
 	    
 	    return true;
 	}  
@@ -181,7 +181,7 @@ public class EditActivity extends Activity {
 		    	 editNote.exit(EditActivity.this);
 		         break;
 		     case PCSDemoInfo.ITEM1:		    	 
-		    	 Toast.makeText(getApplicationContext(), "自由开发者，呵呵！", Toast.LENGTH_SHORT).show();
+		    	 Toast.makeText(getApplicationContext(), "脳脭脫脡驴陋路垄脮脽拢卢潞脟潞脟拢隆", Toast.LENGTH_SHORT).show();
 		         break;
 		 }
 		 
