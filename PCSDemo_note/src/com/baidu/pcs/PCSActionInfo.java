@@ -37,7 +37,7 @@ public final class PCSActionInfo {
 	}
 	
 	/*
-	 * Server-returned data for Request line£ºGET /Create
+	 * Server-returned data for Request lineï¼šGET /Create
 	 */
 	public static class PCSFileInfoResponse {
 
