@@ -161,6 +161,8 @@ public class BaiduPCSAction {
 		    				ArrayList<HashMap<String, String>> list =new ArrayList<HashMap<String,String>>();   
 		    						    				
 
+                                                    if(listResponse.list != null)
+                                                        {
 		    				if( ! listResponse.list.isEmpty()){
 		    					   			    	            
 			    	            for(Iterator<PCSFileInfoResponse> i = listResponse.list.iterator(); i.hasNext();){
@@ -193,6 +195,11 @@ public class BaiduPCSAction {
 		    					list.clear();
 		    					Toast.makeText(context, "您的文件夹为空！", Toast.LENGTH_SHORT).show();		    					
 		    				}    
+                                                    }else{
+                                                        			    	        	//Clear content list
+		    					list.clear();
+		    					Toast.makeText(context, "您的文件夹为空！", Toast.LENGTH_SHORT).show();		  
+                                                    }
 		    				
 			    	         SimpleAdapter listAdapter =new SimpleAdapter(context, list, R.layout.content, new String[]{"file_name","time"}, new int[]{R.id.file_name,R.id.time});   
 			    	        
