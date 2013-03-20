@@ -141,73 +141,73 @@ public class BaiduPCSAction {
     	
         if (null != PCSDemoInfo.access_token){
         	        	
-    		Thread workThread = new Thread(new Runnable(){
+            Thread workThread = new Thread(new Runnable(){
     			
-				public void run() {
+                    public void run() {
 					
-		    		BaiduPCSAPI api = new BaiduPCSAPI();
-		    		api.setAccessToken(PCSDemoInfo.access_token );
+                        BaiduPCSAPI api = new BaiduPCSAPI();
+                        api.setAccessToken(PCSDemoInfo.access_token );
 		    		
-		    		//The path to  file storage on the cloud
-		    		String path = PCSDemoInfo.mbRootPath;
+                        //The path to  file storage on the cloud
+                        String path = PCSDemoInfo.mbRootPath;
 		    		
-		    		//Use list api
-		    		final PCSActionInfo.PCSListInfoResponse listResponse = api.list(path, "name", "asc");
+                        //Use list api
+                        final PCSActionInfo.PCSListInfoResponse listResponse = api.list(path, "name", "asc");
 		    				    		
-		    		PCSDemoInfo.uiThreadHandler.post(new Runnable(){
+                        PCSDemoInfo.uiThreadHandler.post(new Runnable(){
 		    			
-		    			public void run(){		    				
+                                public void run(){		    				
 		    			
-		    				ArrayList<HashMap<String, String>> list =new ArrayList<HashMap<String,String>>();   
+                                    ArrayList<HashMap<String, String>> list =new ArrayList<HashMap<String,String>>();   
 		    						    				
 
-		    				if( ! listResponse.list.isEmpty()){
+                                    if( ! listResponse.list.isEmpty()){
 		    					   			    	            
-			    	            for(Iterator<PCSFileInfoResponse> i = listResponse.list.iterator(); i.hasNext();){
+                                        for(Iterator<PCSFileInfoResponse> i = listResponse.list.iterator(); i.hasNext();){
 			    	            	
-			    	            	HashMap<String, String> map =new HashMap<String, String>();
+                                            HashMap<String, String> map =new HashMap<String, String>();
 			    	            				    	            	
-			    	            	PCSFileInfoResponse info = i.next();
+                                            PCSFileInfoResponse info = i.next();
 			    	            	
-			    	            	//Get the file name 			    	            	
-			    	         	    String path = info.path;			    	         	    
-			    	         	    String fileName = path.substring(PCSDemoInfo.mbRootPath.length(),path.lastIndexOf("."));
+                                            //Get the file name 			    	            	
+                                            String path = info.path;			    	         	    
+                                            String fileName = path.substring(PCSDemoInfo.mbRootPath.length(),path.lastIndexOf("."));
 			    	         	    
-			    	         	    //Get the last modified time
-			    	         	    Date date = new Date(info.mTime*1000);
+                                            //Get the last modified time
+                                            Date date = new Date(info.mTime*1000);
 			    	         	    
-			    	         	    //Modify the format of the time
-			    	         	    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
-			    	         	    String dateString = formatter.format(date);
+                                            //Modify the format of the time
+                                            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
+                                            String dateString = formatter.format(date);
 		  			 			    			    	            	
-			    	            	map.put("file_name", fileName);			    	            	
-			    	            	map.put("time", dateString);
+                                            map.put("file_name", fileName);			    	            	
+                                            map.put("time", dateString);
 			    	            	
-			    	            	//Add item to content list	
-			    	            	list.add(map); 	            	
-			    	            	PCSDemoInfo.fileNameList.add(fileName);							    				    	             
-			    	            }			    	               
-			    	        }else{
+                                            //Add item to content list	
+                                            list.add(map); 	            	
+                                            PCSDemoInfo.fileNameList.add(fileName);							    				    	             
+                                        }			    	               
+                                    }else{
 			    	        	
-			    	        	//Clear content list
-		    					list.clear();
-		    					Toast.makeText(context, "您的文件夹为空！", Toast.LENGTH_SHORT).show();		    					
-		    				}    
+                                        //Clear content list
+                                        list.clear();
+                                        Toast.makeText(context, "您的文件夹为空！", Toast.LENGTH_SHORT).show();		    					
+                                    }    
 		    				
-			    	         SimpleAdapter listAdapter =new SimpleAdapter(context, list, R.layout.content, new String[]{"file_name","time"}, new int[]{R.id.file_name,R.id.time});   
+                                    SimpleAdapter listAdapter =new SimpleAdapter(context, list, R.layout.content, new String[]{"file_name","time"}, new int[]{R.id.file_name,R.id.time});   
 			    	        
-			    	         //Set listview to display content
-			    	         ((ListActivity)context).setListAdapter(listAdapter);
+                                    //Set listview to display content
+                                    ((ListActivity)context).setListAdapter(listAdapter);
 		    	         
-			    	         Toast.makeText(context, R.string.refresh, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, R.string.refresh, Toast.LENGTH_SHORT).show();
 
-		    			}
-		    		});	
+                                }
+                            });	
 		    		
-				}
-			});
+                    }
+                });
 			 
-    		workThread.start();
+            workThread.start();
 
         } 
     }
@@ -271,7 +271,7 @@ public class BaiduPCSAction {
 				}
 			});
 			 
-    		workThread.start();
+    		// workThread.start();
     	}
     }
     
@@ -320,7 +320,7 @@ public class BaiduPCSAction {
 				}
 			});
 			 
-    		workThread.start();
+    		// workThread.start();
     	}
     }
     
