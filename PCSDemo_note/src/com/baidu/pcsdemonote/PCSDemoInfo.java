@@ -14,7 +14,7 @@ public class PCSDemoInfo {
 	public static String access_token = null; 
 	
 	//The file in the cloud of the storage of folders
-	public final static String mbRootPath = "/apps/ÔÆ¶Ë¼ÇÊÂ±¾/";
+	public final static String mbRootPath = "/apps/äº‘ç«¯è®°äº‹æœ¬/";
 	
 	//UI thread
 	public static Handler uiThreadHandler = null;
@@ -44,7 +44,7 @@ public class PCSDemoInfo {
 	public static String fileContent = null;
 	
 	
-	//ASctivity status :create£¨0£©¡¢edit£¨1£©¡¢content list£¨2£©
+	//ASctivity status :createï¼ˆ0ï¼‰ã€editï¼ˆ1ï¼‰ã€content listï¼ˆ2ï¼‰
 	public static int statu = 2;
 	
 	//Menu options
