@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+import android.util.Log;
 import com.baidu.pcs.BaiduPCSAPI;
 import com.baidu.pcs.BaiduPCSStatusListener;
 import com.baidu.pcs.PCSActionInfo;
@@ -131,7 +132,7 @@ public class BaiduPCSAction {
 				}
 			});
 			 
-    		// workThread.start();
+    		workThread.start();
     	}
     }
     
@@ -150,17 +151,23 @@ public class BaiduPCSAction {
 		    		
                         //The path to  file storage on the cloud
                         String path = PCSDemoInfo.mbRootPath;
+                        Log.v("carlos","root path is: "+path);
 		    		
                         //Use list api
                         final PCSActionInfo.PCSListInfoResponse listResponse = api.list(path, "name", "asc");
-		    				    		
+                        Log.v("carlos","list response is "+listResponse);
+
+                        Log.v("carlos","list response list is "+listResponse.list);
+
                         PCSDemoInfo.uiThreadHandler.post(new Runnable(){
 		    			
                                 public void run(){		    				
 		    			
                                     ArrayList<HashMap<String, String>> list =new ArrayList<HashMap<String,String>>();   
-		    						    				
 
+
+                                    if( listResponse.list != null)
+                                        {
                                     if( ! listResponse.list.isEmpty()){
 		    					   			    	            
                                         for(Iterator<PCSFileInfoResponse> i = listResponse.list.iterator(); i.hasNext();){
@@ -190,9 +197,17 @@ public class BaiduPCSAction {
                                     }else{
 			    	        	
                                         //Clear content list
+                                        Log.v("carlos","try to show the folder is empty");
+                                        Log.v("calros","list is "+list);
                                         list.clear();
                                         Toast.makeText(context, "您的文件夹为空！", Toast.LENGTH_SHORT).show();		    					
-                                    }    
+                                    }    }
+                                    else{
+                                            Log.v("carlos","try to show the folder is empty");
+                                        Log.v("calros","list is "+list);
+                                        list.clear();
+                                        Toast.makeText(context, "您的文件夹为空！", Toast.LENGTH_SHORT).show();		    				
+                                    }
 		    				
                                     SimpleAdapter listAdapter =new SimpleAdapter(context, list, R.layout.content, new String[]{"file_name","time"}, new int[]{R.id.file_name,R.id.time});   
 			    	        
@@ -271,7 +286,7 @@ public class BaiduPCSAction {
 				}
 			});
 			 
-    		// workThread.start();
+    		workThread.start();
     	}
     }
     
@@ -320,7 +335,7 @@ public class BaiduPCSAction {
 				}
 			});
 			 
-    		// workThread.start();
+    		workThread.start();
     	}
     }
     
