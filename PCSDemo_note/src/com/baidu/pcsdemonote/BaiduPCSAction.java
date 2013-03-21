@@ -95,9 +95,12 @@ public class BaiduPCSAction {
 		    		
 		    		//Set access_token for pcs api
 		    		api.setAccessToken(PCSDemoInfo.access_token);
-		    		
+		    		Log.v("calro","try to upload");
+		    		Log.v("carlos","sourcefile is " + PCSDemoInfo.sourceFile);
+		    		Log.v("carlos","rootpath is " + PCSDemoInfo.mbRootPath);
+		    		Log.v("carlos","filttile is " + PCSDemoInfo.fileTitle);
 		    	    //Use pcs uploadFile API to uplaod files
-					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api.uploadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.mbRootPath+PCSDemoInfo.fileTitle+".txt", new BaiduPCSStatusListener(){
+					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api.uploadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.mbRootPath+"/123.jpg", new BaiduPCSStatusListener(){
 
 						@Override
 						public void onProgress(long bytes, long total) {
@@ -111,13 +114,14 @@ public class BaiduPCSAction {
 		    			public void run(){
 		  
 		    				if(uploadResponse.error_code == 0){
-		    					
+		    					Log.v("carlos", "upload success1");
+
 		    					Toast.makeText(context,"上传成功", Toast.LENGTH_SHORT).show();
-		    					
+		    					Log.v("carlos", "upload success");
 		    					//Delete temp file
-		    					File file = new File(PCSDemoInfo.sourceFile);
-		    					file.delete();
-		    					
+//		    					File file = new File(PCSDemoInfo.sourceFile);
+//		    					file.delete();
+//		    					
 	    					    //Back to the content activity
 		    					back(context);
 		    					
@@ -286,7 +290,7 @@ public class BaiduPCSAction {
 				}
 			});
 			 
-    		workThread.start();
+//    		workThread.start();
     	}
     }
     
@@ -342,24 +346,26 @@ public class BaiduPCSAction {
     public void save(Context context) {
     	
     	try{
-    		PCSDemoInfo.sourceFile = context.getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
+//    		PCSDemoInfo.sourceFile = context.getFilesDir()+"/"+PCSDemoInfo.fileTitle+".txt";
+    		PCSDemoInfo.sourceFile = PCSDemoInfo.fileTitle;
+    		PCSDemoInfo.fileTitle  = "123.jpg";
        		
-       	    String saveFile = PCSDemoInfo.fileTitle+".txt";
-       			        			 	 
-       	    FileOutputStream outputStream= context.openFileOutput(saveFile, Context.MODE_PRIVATE);
-       	 
-       	    if(!PCSDemoInfo.fileContent.equals("")){
-       		    //save file
-           	    outputStream.write(PCSDemoInfo.fileContent.getBytes());
-     					           	           	 
-       	    }else{
-
-	       		byte bytes = 0;
-	       		outputStream.write(bytes);
-       	    }
+//       	    String saveFile = PCSDemoInfo.fileTitle+".txt";
+//       			        			 	 
+//       	    FileOutputStream outputStream= context.openFileOutput(saveFile, Context.MODE_PRIVATE);
+//       	 
+//       	    if(!PCSDemoInfo.fileContent.equals("")){
+//       		    //save file
+//           	    outputStream.write(PCSDemoInfo.fileContent.getBytes());
+//     					           	           	 
+//       	    }else{
+//
+//	       		byte bytes = 0;
+//	       		outputStream.write(bytes);
+//       	    }
        	          	 
-       	    outputStream.close();
-       	    
+//       	    outputStream.close();
+       	    Log.v("carlos","PCSDemoInfo.statu is "+PCSDemoInfo.statu);
        	    if(PCSDemoInfo.statu == 0){
        	    	//Upload the file to cloud 
        	    	upload(context);

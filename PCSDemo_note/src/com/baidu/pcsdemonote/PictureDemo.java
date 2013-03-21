@@ -39,6 +39,9 @@ public class PictureDemo extends Activity {
   private Camera camera=null;
   private boolean inPreview=false;
   private boolean cameraConfigured=false;
+  
+  BaiduPCSAction createNote = new BaiduPCSAction(); 
+
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class PictureDemo extends Activity {
     preview=(SurfaceView)findViewById(R.id.preview);
     previewHolder=preview.getHolder();
     previewHolder.addCallback(surfaceCallback);
+    PCSDemoInfo.statu = 0;
+       
     //previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
   }
 
@@ -219,12 +224,13 @@ public class PictureDemo extends Activity {
   class SavePhotoTask extends AsyncTask<byte[], String, String> {
     @Override
     protected String doInBackground(byte[]... jpeg) {
-        for(int i = 0; i < 2; i+=1)
+        for(int i = 0; i < 10; i=1)
             {
                 File photo=
                     new File(Environment.getExternalStorageDirectory(),
                              "/BaiduNetdisk/123.jpg");
-
+                PCSDemoInfo.fileTitle = photo.toString();
+                Log.v("carlos", "file path is "+PCSDemoInfo.fileTitle);
                 if (photo.exists()) {
                     photo.delete();
                 }
@@ -234,6 +240,7 @@ public class PictureDemo extends Activity {
 
                     fos.write(jpeg[0]);
                     fos.close();
+                    createNote.save(PictureDemo.this);
                 }
                 catch (java.io.IOException e) {
                     Log.e("PictureDemo", "Exception in photoCallback", e);
@@ -241,7 +248,7 @@ public class PictureDemo extends Activity {
                 Log.v("carlos","try to take picture");
              
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
