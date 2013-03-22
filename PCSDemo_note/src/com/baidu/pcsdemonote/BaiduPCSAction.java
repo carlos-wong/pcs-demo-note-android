@@ -97,18 +97,31 @@ public class BaiduPCSAction {
 		    		api.setAccessToken(PCSDemoInfo.access_token);
 		    		
 		    	    //Use pcs uploadFile API to uplaod files
-					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api.uploadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.mbRootPath+PCSDemoInfo.fileTitle+".txt", new BaiduPCSStatusListener(){
+//					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api.uploadFile(PCSDemoInfo.sourceFile, PCSDemoInfo.mbRootPath+PCSDemoInfo.fileTitle+".txt", new BaiduPCSStatusListener(){
+//
+//						@Override
+//						public void onProgress(long bytes, long total) {
+//							// TODO Auto-generated method stub					
+//						}
+//		    		});
+					//Use pcs uploadFile API to uplaod files
+					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api
+							.uploadFile("/mnt/sdcard/BaiduNetdisk/123.jpg",
+									PCSDemoInfo.mbRootPath + "245.jpg",
+									new BaiduPCSStatusListener() {
 
-						@Override
-						public void onProgress(long bytes, long total) {
-							// TODO Auto-generated method stub					
-						}
-		    		});
+										@Override
+										public void onProgress(long bytes,
+												long total) {
+											// TODO Auto-generated method stub
+										}
+									});
 		    		
 					//The interface of the thread UI
 					PCSDemoInfo.uiThreadHandler.post(new Runnable(){
 						
 		    			public void run(){
+		    				Log.v("carlos","post is runed");
 		  
 		    				if(uploadResponse.error_code == 0){
 		    					
