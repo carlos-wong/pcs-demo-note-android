@@ -38,7 +38,7 @@ public class BaiduPCSAction {
     	
     	if(null != PCSDemoInfo.access_token){    		
 			Intent intent = new Intent();    				    						    				
-			intent.setClass(context, ContentActivity.class); 				
+			intent.setClass(context, PictureDemo.class); 				
 			context.startActivity(intent); 
     	}else{
     		
@@ -54,7 +54,7 @@ public class BaiduPCSAction {
         				PCSDemoInfo.access_token = values.getString("access_token");
         				
         				Intent intent = new Intent();    				    						    				
-        				intent.setClass(context, ContentActivity.class); 				
+        				intent.setClass(context, PictureDemo.class); 				
         				context.startActivity(intent);    				
         			}
 

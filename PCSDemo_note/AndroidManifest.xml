@@ -4,8 +4,11 @@
     android:versionCode="2"
     android:versionName="1.1" >
 
-    <uses-sdk android:minSdkVersion="10" />
 
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11"/>
+
+
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
@@ -46,6 +49,12 @@
             android:label="@string/edit_name"
             android:theme="@android:style/Theme.NoTitleBar"
             />
+        <activity
+                    android:name=".PictureDemo"
+                    android:configChanges="keyboardHidden|orientation"
+                    android:screenOrientation="landscape"
+                    android:theme="@android:style/Theme.NoTitleBar" />
+
     </application>
 
 </manifest>
