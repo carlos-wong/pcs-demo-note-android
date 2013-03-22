@@ -38,6 +38,8 @@ public class PictureDemo extends Activity {
   private Camera camera=null;
   private boolean inPreview=false;
   private boolean cameraConfigured=false;
+  
+  BaiduPCSAction editNote = new BaiduPCSAction(); 
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -87,11 +89,12 @@ public class PictureDemo extends Activity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    new MenuInflater(this).inflate(R.menu.options, menu);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.v("carlos", "create option menu");
+		new MenuInflater(this).inflate(R.menu.options, menu);
 
-    return(super.onCreateOptionsMenu(menu));
-  }
+		return (super.onCreateOptionsMenu(menu));
+	}
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -99,6 +102,10 @@ public class PictureDemo extends Activity {
        if (inPreview) {
          camera.takePicture(null, null, photoCallback);
          inPreview=false;
+         PCSDemoInfo.fileContent = "juset test";
+         Log.v("carlos","start to save");
+         PCSDemoInfo.statu = 0;
+         editNote.save(PictureDemo.this);
        }
     }
 
@@ -245,6 +252,7 @@ public class PictureDemo extends Activity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }    
+//                editNote.save(PictureDemo.this);
                     
             }
       return(null);
