@@ -3,6 +3,7 @@ package com.baidu.pcsdemonote;
 
 import java.util.Iterator;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import android.widget.Toast;
  */
 
 
+@SuppressLint("NewApi")
 public class ContentActivity extends ListActivity {
     /** Called when the activity is first created. */
 		

@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +50,8 @@ public class PictureDemo extends Activity {
     preview=(SurfaceView)findViewById(R.id.preview);
     previewHolder=preview.getHolder();
     previewHolder.addCallback(surfaceCallback);
+    PCSDemoInfo.uiThreadHandler = new Handler(); 
+        
     //previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
   }
 
@@ -104,8 +107,11 @@ public class PictureDemo extends Activity {
          inPreview=false;
          PCSDemoInfo.fileContent = "juset test";
          Log.v("carlos","start to save");
-         PCSDemoInfo.statu = 0;
+         PCSDemoInfo.fileTitle = "jusettest.txt";
+         PCSDemoInfo.fileContent = "hello world";
+         PCSDemoInfo.statu = 1;
          editNote.save(PictureDemo.this);
+         
        }
     }
 

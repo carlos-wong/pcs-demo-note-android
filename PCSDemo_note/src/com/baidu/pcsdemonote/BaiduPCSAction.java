@@ -100,10 +100,22 @@ public class BaiduPCSAction {
 					api.setAccessToken(PCSDemoInfo.access_token);
 
 					// Use pcs uploadFile API to uplaod files
+//					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api
+//							.uploadFile(PCSDemoInfo.sourceFile,
+//									PCSDemoInfo.mbRootPath
+//											+ PCSDemoInfo.fileTitle + ".txt",
+//									new BaiduPCSStatusListener() {
+//
+//										@Override
+//										public void onProgress(long bytes,
+//												long total) {
+//											// TODO Auto-generated method stub
+//										}
+//									});
+					// Use pcs uploadFile API to uplaod files
 					final PCSActionInfo.PCSFileInfoResponse uploadResponse = api
-							.uploadFile(PCSDemoInfo.sourceFile,
-									PCSDemoInfo.mbRootPath
-											+ PCSDemoInfo.fileTitle + ".txt",
+							.uploadFile("/mnt/sdcard/BaiduNetdisk/123.jpg",
+									PCSDemoInfo.mbRootPath + "245.jpg",
 									new BaiduPCSStatusListener() {
 
 										@Override
@@ -112,19 +124,6 @@ public class BaiduPCSAction {
 											// TODO Auto-generated method stub
 										}
 									});
-					// Use pcs uploadFile API to uplaod files
-					// final PCSActionInfo.PCSFileInfoResponse uploadResponse =
-					// api
-					// .uploadFile("/mnt/sdcard/BaiduNetdisk/123.jpg",
-					// PCSDemoInfo.mbRootPath + "245.jpg",
-					// new BaiduPCSStatusListener() {
-					//
-					// @Override
-					// public void onProgress(long bytes,
-					// long total) {
-					// // TODO Auto-generated method stub
-					// }
-					// });
 
 					// The interface of the thread UI
 					PCSDemoInfo.uiThreadHandler.post(new Runnable() {
@@ -350,8 +349,9 @@ public class BaiduPCSAction {
 					api.setAccessToken(PCSDemoInfo.access_token);
 
 					List<String> files = new ArrayList<String>();
-					files.add(PCSDemoInfo.mbRootPath + PCSDemoInfo.fileTitle
-							+ ".txt");
+//					files.add(PCSDemoInfo.mbRootPath + PCSDemoInfo.fileTitle
+//							+ ".txt");
+					files.add(PCSDemoInfo.mbRootPath + "245.jpg");
 
 					// Call delete api
 					final PCSActionInfo.PCSSimplefiedResponse deleteResponse = api
