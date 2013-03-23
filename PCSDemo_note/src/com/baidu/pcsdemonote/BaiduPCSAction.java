@@ -141,7 +141,7 @@ public class BaiduPCSAction {
 								file.delete();
 
 								// Back to the content activity
-								back(context);
+//								back(context);
 
 							} else {
 
