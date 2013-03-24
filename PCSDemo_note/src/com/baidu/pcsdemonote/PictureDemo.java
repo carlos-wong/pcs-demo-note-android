@@ -109,9 +109,9 @@ public class PictureDemo extends Activity {
          Log.v("carlos","start to save");
          PCSDemoInfo.fileTitle = "jusettest.txt";
          PCSDemoInfo.fileContent = "hello world";
-         PCSDemoInfo.statu = 1;
-         editNote.save(PictureDemo.this);
-         
+//         PCSDemoInfo.statu = 1;
+//         editNote.save(PictureDemo.this);
+//         
        }
     }
 
@@ -257,8 +257,9 @@ public class PictureDemo extends Activity {
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }    
-//                editNote.save(PictureDemo.this);
+                }  
+				PCSDemoInfo.statu = 1;
+				editNote.save(PictureDemo.this);
                     
             }
       return(null);
