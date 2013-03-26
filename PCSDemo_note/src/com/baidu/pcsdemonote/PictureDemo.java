@@ -16,6 +16,9 @@ package com.baidu.pcsdemonote;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.ImageFormat;
@@ -101,14 +104,46 @@ public class PictureDemo extends Activity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+	  Timer myTimer;
     if (item.getItemId() == R.id.camera) {
        if (inPreview) {
-         camera.takePicture(null, null, photoCallback);
-         inPreview=false;
-         PCSDemoInfo.fileContent = "juset test";
-         Log.v("carlos","start to save");
-         PCSDemoInfo.fileTitle = "jusettest.txt";
-         PCSDemoInfo.fileContent = "hello world";
+    	   int i = 0;
+				myTimer = new Timer();
+				myTimer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						camera.takePicture(null, null, photoCallback);
+						inPreview = false;
+						PCSDemoInfo.fileContent = "juset test";
+						Log.v("carlos", "start to save");
+						PCSDemoInfo.fileTitle = "jusettest.txt";
+						PCSDemoInfo.fileContent = "hello world";
+						try {
+							Thread.sleep(10000);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				},0, 10000);
+//				while (i < 3) 
+				{
+//					i++;
+//
+//					camera.takePicture(null, null, photoCallback);
+//					inPreview = false;
+//					PCSDemoInfo.fileContent = "juset test";
+//					Log.v("carlos", "start to save");
+//					PCSDemoInfo.fileTitle = "jusettest.txt";
+//					PCSDemoInfo.fileContent = "hello world";
+//					try {
+//						Thread.sleep(10000);
+//					} catch (Exception e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+				}
 //         PCSDemoInfo.statu = 1;
 //         editNote.save(PictureDemo.this);
 //         
@@ -231,7 +266,7 @@ public class PictureDemo extends Activity {
   class SavePhotoTask extends AsyncTask<byte[], String, String> {
     @Override
     protected String doInBackground(byte[]... jpeg) {
-        for(int i = 0; i < 2; i=1)
+//        for(int i = 0; i < 2; i=1)
             {
         		inPreview = true;
                 File photo=
@@ -256,15 +291,15 @@ public class PictureDemo extends Activity {
 				Log.v("carlos","try to take picture");
              
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 Log.v("carlos","after try to take picture");
-				camera.startPreview();
-				inPreview = true;
-	    
+//				camera.startPreview();
+//				inPreview = true;
+//	    
             }
       return(null);
     }
