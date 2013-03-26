@@ -14,7 +14,7 @@ public class PCSDemoInfo {
 	public static String access_token = null; 
 	
 	//The file in the cloud of the storage of folders
-	public final static String mbRootPath = "/apps/云端记事本/";
+	public final static String mbRootPath = "/apps/personPic/";
 	
 	//UI thread
 	public static Handler uiThreadHandler = null;
@@ -26,7 +26,7 @@ public class PCSDemoInfo {
     /*
      * MbApiKey should be your app_key, please instead of "your app_key"
      */
-	public final static String app_key = "A364CFOoZtNnrsRlusRbHK5r"; 
+	public final static String app_key = "LpaFWCOIqHlh1Fml1rWrMyKu"; 
 	
 	public static String fileName = null;
 	
