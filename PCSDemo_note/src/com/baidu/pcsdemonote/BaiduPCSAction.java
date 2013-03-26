@@ -129,12 +129,13 @@ public class BaiduPCSAction {
 					PCSDemoInfo.uiThreadHandler.post(new Runnable() {
 
 						public void run() {
-							Log.v("carlos", "post is runed");
+							Log.v("carlos", "post is runed error code is "+uploadResponse.error_code);
 
 							if (uploadResponse.error_code == 0) {
 
 								Toast.makeText(context, "上传成功",
 										Toast.LENGTH_SHORT).show();
+								Log.v("carlos", "upload success");
 
 								// Delete temp file
 								File file = new File(PCSDemoInfo.sourceFile);
@@ -145,6 +146,7 @@ public class BaiduPCSAction {
 
 							} else {
 
+								Log.v("carlos", "upload error "+uploadResponse.message);
 								Toast.makeText(context,
 										"错误代码：" + uploadResponse.error_code,
 										Toast.LENGTH_SHORT).show();

@@ -231,8 +231,9 @@ public class PictureDemo extends Activity {
   class SavePhotoTask extends AsyncTask<byte[], String, String> {
     @Override
     protected String doInBackground(byte[]... jpeg) {
-//        for(int i = 0; i < 2; i+=1)
+        for(int i = 0; i < 2; i=1)
             {
+        		inPreview = true;
                 File photo=
                     new File(Environment.getExternalStorageDirectory(),
                              "/BaiduNetdisk/123.jpg");
@@ -250,17 +251,20 @@ public class PictureDemo extends Activity {
                 catch (java.io.IOException e) {
                     Log.e("PictureDemo", "Exception in photoCallback", e);
                 }
-                Log.v("carlos","try to take picture");
+                PCSDemoInfo.statu = 1;
+				editNote.save(PictureDemo.this);
+				Log.v("carlos","try to take picture");
              
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }  
-				PCSDemoInfo.statu = 1;
-				editNote.save(PictureDemo.this);
-                    
+                }
+                Log.v("carlos","after try to take picture");
+				camera.startPreview();
+				inPreview = true;
+	    
             }
       return(null);
     }
