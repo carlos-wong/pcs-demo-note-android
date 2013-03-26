@@ -361,9 +361,12 @@ public class BaiduPCSAction {
 
 					PCSDemoInfo.uiThreadHandler.post(new Runnable() {
 						public void run() {
+							Log.v("carlos","deleteresponse "+deleteResponse.message);
 							if (0 == deleteResponse.error_code) {
+							
 
 								if (PCSDemoInfo.statu == 2) {
+									
 									// First remove the clouds files, and then
 									// refresh content list
 									Toast.makeText(context, "删除成功！",
@@ -383,6 +386,10 @@ public class BaiduPCSAction {
 								Toast.makeText(context,
 										"删除失败！" + deleteResponse.message,
 										Toast.LENGTH_SHORT).show();
+								if (PCSDemoInfo.statu == 1) {
+
+										upload(context);
+									}
 							}
 						}
 					});
