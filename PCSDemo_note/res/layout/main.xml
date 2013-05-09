@@ -35,25 +35,22 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_icon"
         android:layout_below="@+id/login"
         >
      
-    <ImageView 
+    <!-- <ImageView 
          android:id="@+id/logoicon"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:src="@drawable/login_icon"
          android:layout_centerHorizontal="true"
-         />
+         /> -->
     
 	<Button
 	    android:id="@+id/btnlogin"
-	    android:layout_width="180dp"
-	    android:layout_height="60dp"
-	    android:textSize="8pt"
-	    android:textColor="#000000"
-	    android:text="@string/login"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:layout_centerHorizontal="true"
 	    android:focusable="true"
